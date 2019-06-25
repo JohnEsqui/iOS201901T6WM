@@ -14,7 +14,7 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
     var indicator = UIActivityIndicatorView()
     
     // Variable que contiene los títulos de los trabajos
-    var jobs = [String]()
+    var jobs = [Job]()
 
     // Barra de búsqueda
     var searchJob = UISearchBar()
@@ -54,11 +54,18 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
             (data, response, error) in
             
             do {
-                self.jobs = [String]()
+                self.jobs = [Job]()
                 let dictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [[String:Any]]
                 
                 for item in dictionary {
-                    let job = item["title"] as! String
+                    let job = Job()
+                    job.title = item["title"] as? String
+                    job.company = item["company"] as? String
+                    job.companyLogo = item["company_logo"] as? String
+                    job.location = item["location"] as? String
+                    job.description = item["description"] as? String
+                    job.type = item["type"] as? String
+                    
                     self.jobs.append(job)
                 }
                 DispatchQueue.main.async {
@@ -110,7 +117,7 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         
-        cell.initCell(title: jobs[indexPath.row])
+        cell.initCell(job: jobs[indexPath.row])
         // Configure the cell...
 
         return cell
@@ -162,7 +169,7 @@ class TableViewController: UITableViewController, UISearchBarDelegate {
         
         let indexPath = self.tableView.indexPathForSelectedRow!
         let vc = segue.destination as! ViewController
-        vc.title = jobs[indexPath.row]
+        vc.job = jobs[indexPath.row]
     }
     
 

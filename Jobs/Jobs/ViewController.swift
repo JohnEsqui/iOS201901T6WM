@@ -11,13 +11,23 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var imageCompanyLogo: UIImageView!
+    @IBOutlet weak var labelLocation: UILabel!
+    @IBOutlet weak var labelCompany: UILabel!
+    @IBOutlet weak var labelType: UILabel!
+    @IBOutlet weak var labelDescription: UILabel!
     
-    var job:String?
+    var job:Job?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = title
-        // Do any additional setup after loading the view.
+        self.navigationItem.title = job?.title
+        self.labelLocation.text = job?.location
+        self.labelCompany.text = job?.company
+        self.labelType.text = job?.type
+        self.labelDescription.text = job?.description?.htmlToString
+        self.imageCompanyLogo.loadImage(urlString: job?.companyLogo)
+
+        
     }
 
 

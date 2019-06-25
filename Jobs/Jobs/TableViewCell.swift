@@ -12,6 +12,8 @@ class TableViewCell: UITableViewCell {
     
     @IBOutlet weak var labelTitle: UILabel!
         
+    @IBOutlet weak var labelCompany: UILabel!
+    
     @IBOutlet weak var imageCompanyLogo: UIImageView!
     
     override func awakeFromNib() {
@@ -25,8 +27,10 @@ class TableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func initCell(title: String) {
-        self.labelTitle.text = title
+    func initCell(job: Job) {
+        self.labelTitle.text = job.title
+        self.labelCompany.text = job.company
+        self.imageCompanyLogo.loadImage(urlString: job.companyLogo)
     }
 
 }
